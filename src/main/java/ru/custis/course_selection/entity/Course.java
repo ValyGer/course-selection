@@ -1,6 +1,6 @@
 package ru.custis.course_selection.entity;
 
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
@@ -11,10 +11,16 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Table(name = "courses")
 public class Course {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @Column(name = "title")
     private String title;
-    private long limit;
-    private List<Student> students;
+    @Column(name = "limit_person")
+    private long limitPerson;
+//    @ManyToMany
+//    private List<Student> students;
 }
