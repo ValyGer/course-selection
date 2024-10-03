@@ -53,8 +53,9 @@ public class CourseServiceImpl implements CourseService {
                 (courseIniDto.getLimitPerson() >= course.getStudents().size())) {
             course.setLimitPerson(courseIniDto.getLimitPerson());
         }
+        Course saveCourse = courseRepository.save(course);
         log.info("Курс с id = {} успешно обновлен", courseId);
-        return courseMappingImpl.courseToCourseDto(course);
+        return courseMappingImpl.courseToCourseDto(saveCourse);
     }
 
     @Override
