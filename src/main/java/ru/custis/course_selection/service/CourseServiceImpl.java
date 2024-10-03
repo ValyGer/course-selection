@@ -5,8 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.custis.course_selection.dto.CourseDto;
 import ru.custis.course_selection.dto.CourseInitDto;
-import ru.custis.course_selection.dto.CourseMapping;
+import ru.custis.course_selection.dto.CourseMappingImpl;
 import ru.custis.course_selection.entity.Course;
+import ru.custis.course_selection.exception.NotFoundException;
 import ru.custis.course_selection.repository.CourseRepository;
 
 import java.util.List;
@@ -19,62 +20,56 @@ import java.util.stream.Collectors;
 public class CourseServiceImpl implements CourseService {
 
     private final CourseRepository courseRepository;
-    private final CourseMapping courseMapping;
+    private final CourseMappingImpl courseMappingImpl;
 
     @Override
     public List<CourseDto> getAllCourse() {
         List<Course> courses = courseRepository.findAll();
         log.info("Получены все курсы");
-        return courses.stream().map(courseMapping::courseToCourseDto).collect(Collectors.toList());
+        return courses.stream().map(courseMappingImpl::courseToCourseDto).collect(Collectors.toList());
     }
 
     @Override
-    public CourseDto getCourse(Long courseId) {
-        Optional<Course> courseOptional = courseRepository.findById(courseId);
-        if (courseOptional.isPresent()) {
-            log.info("Получен курс с id = {}", courseId);
-            return courseMapping.courseToCourseDto(courseOptional.get());
-        }
-        throw new RuntimeException("Курс " + courseId + " не найден");
+    public CourseDto getCourseById(Long courseId) {
+        Course course = validCourseId(courseId);
+        log.info("Получен курс с id = {}", courseId);
+        return courseMappingImpl.courseToCourseDto(course);
     }
 
     @Override
     public CourseDto createCourse(CourseInitDto courseIniDto) {
-        Course course = courseMapping.courseInitDtoToCourse(courseIniDto);
+        Course course = courseMappingImpl.courseInitDtoToCourse(courseIniDto);
         log.info("Новый курс успешно создан с id = {}", course.getId());
-        return courseMapping.courseToCourseDto(courseRepository.save(course));
+        return courseMappingImpl.courseToCourseDto(courseRepository.save(course));
     }
 
     @Override
     public CourseDto updateCourse(Long courseId, CourseInitDto courseIniDto) {
         Course course = validCourseId(courseId);
-        if (!courseIniDto.getTitle().isBlank()){
+        if (!courseIniDto.getTitle().isBlank()) {
             course.setTitle(courseIniDto.getTitle());
         }
         if ((courseIniDto.getLimitPerson() != 0) &&
-                (courseIniDto.getLimitPerson() >= course.getStudents().size())){
+                (courseIniDto.getLimitPerson() >= course.getStudents().size())) {
             course.setLimitPerson(courseIniDto.getLimitPerson());
         }
         log.info("Курс с id = {} успешно обновлен", courseId);
-        return courseMapping.courseToCourseDto(course);
+        return courseMappingImpl.courseToCourseDto(course);
     }
 
     @Override
     public void deleteCourse(Long courseId) {
-        try {
-            courseRepository.deleteById(courseId);
-            log.info("Курс удален успешно id = {}", courseId);
-        } catch (RuntimeException e) {
-            System.out.println("Курс " + courseId + " не найден");
-        }
+        validCourseId(courseId);
+        courseRepository.deleteById(courseId);
+        log.info("Курс удален успешно id = {}", courseId);
     }
 
-    private Course validCourseId(Long courseId){
+    private Course validCourseId(Long courseId) {
         Optional<Course> course = courseRepository.findById(courseId);
         if (course.isPresent()) {
             return course.get();
         } else {
-            throw new RuntimeException("Курс " + courseId + " не найден");
+            throw new NotFoundException("Курс " + courseId + " не найден");
         }
     }
 }

@@ -3,7 +3,6 @@ package ru.custis.course_selection.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -24,6 +23,6 @@ public class Course {
     private long limitPerson;
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "registrations", joinColumns = @JoinColumn(name = "course_id", referencedColumnName = "id"),
-    inverseJoinColumns = @JoinColumn(name = "student_id", referencedColumnName = "id"))
+            inverseJoinColumns = @JoinColumn(name = "student_id", referencedColumnName = "id"))
     private List<Student> students;
 }
