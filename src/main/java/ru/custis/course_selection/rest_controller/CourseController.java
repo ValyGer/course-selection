@@ -6,9 +6,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.custis.course_selection.dto.CourseDto;
-import ru.custis.course_selection.dto.CourseInitDto;
-import ru.custis.course_selection.service.CourseService;
+import ru.custis.course_selection.dto.course.CourseDto;
+import ru.custis.course_selection.dto.course.CourseInitDto;
+import ru.custis.course_selection.service.course.CourseService;
 
 import java.util.List;
 

@@ -1,11 +1,11 @@
-package ru.custis.course_selection.service;
+package ru.custis.course_selection.service.course;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import ru.custis.course_selection.dto.CourseDto;
-import ru.custis.course_selection.dto.CourseInitDto;
-import ru.custis.course_selection.dto.CourseMappingImpl;
+import ru.custis.course_selection.dto.course.CourseDto;
+import ru.custis.course_selection.dto.course.CourseInitDto;
+import ru.custis.course_selection.dto.course.CourseMappingImpl;
 import ru.custis.course_selection.entity.Course;
 import ru.custis.course_selection.exception.NotFoundException;
 import ru.custis.course_selection.repository.CourseRepository;

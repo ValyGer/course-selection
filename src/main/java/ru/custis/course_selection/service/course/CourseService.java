@@ -1,7 +1,7 @@
-package ru.custis.course_selection.service;
+package ru.custis.course_selection.service.course;
 
-import ru.custis.course_selection.dto.CourseDto;
-import ru.custis.course_selection.dto.CourseInitDto;
+import ru.custis.course_selection.dto.course.CourseDto;
+import ru.custis.course_selection.dto.course.CourseInitDto;
 
 import java.util.List;
 

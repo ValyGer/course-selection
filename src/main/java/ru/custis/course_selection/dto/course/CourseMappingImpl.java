@@ -1,4 +1,4 @@
-package ru.custis.course_selection.dto;
+package ru.custis.course_selection.dto.course;
 
 import org.springframework.stereotype.Component;
 import ru.custis.course_selection.entity.Course;

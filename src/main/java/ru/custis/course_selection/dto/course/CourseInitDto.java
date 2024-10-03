@@ -1,4 +1,4 @@
-package ru.custis.course_selection.dto;
+package ru.custis.course_selection.dto.course;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;

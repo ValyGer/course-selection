@@ -5,13 +5,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import ru.custis.course_selection.dto.CourseDto;
-import ru.custis.course_selection.dto.CourseInitDto;
-import ru.custis.course_selection.dto.CourseMappingImpl;
+import ru.custis.course_selection.dto.course.CourseDto;
+import ru.custis.course_selection.dto.course.CourseInitDto;
+import ru.custis.course_selection.dto.course.CourseMappingImpl;
 import ru.custis.course_selection.entity.Course;
 import ru.custis.course_selection.exception.NotFoundException;
-import ru.custis.course_selection.exception.ValidationException;
 import ru.custis.course_selection.repository.CourseRepository;
+import ru.custis.course_selection.service.course.CourseServiceImpl;
 
 import java.util.ArrayList;
 import java.util.List;

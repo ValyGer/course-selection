@@ -4,14 +4,15 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
+import ru.custis.course_selection.dto.course.CourseDto;
+import ru.custis.course_selection.dto.course.CourseInitDto;
+import ru.custis.course_selection.dto.course.CourseMappingImpl;
 import ru.custis.course_selection.entity.Course;
 
 import java.util.ArrayList;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
