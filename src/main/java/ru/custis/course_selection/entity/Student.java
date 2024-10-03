@@ -3,9 +3,11 @@ package ru.custis.course_selection.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter
-@ToString
+@ToString(exclude = "courses")
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -19,4 +21,8 @@ public class Student {
     private String firstname;
     @Column(name = "lastname")
     private String lastname;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "registrations", joinColumns = @JoinColumn(name = "student_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "course_id", referencedColumnName = "id"))
+    private List<Course> courses;
 }
