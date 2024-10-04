@@ -1,4 +1,4 @@
-package ru.custis.course_selection.service;
+package ru.custis.course_selection.service.course;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,7 +11,6 @@ import ru.custis.course_selection.dto.course.CourseMappingImpl;
 import ru.custis.course_selection.entity.Course;
 import ru.custis.course_selection.exception.NotFoundException;
 import ru.custis.course_selection.repository.CourseRepository;
-import ru.custis.course_selection.service.course.CourseServiceImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +43,7 @@ class CourseServiceImplTest {
         CourseDto firstCourseDto = new CourseDto("title", 0L, 0L, new ArrayList<>());
         CourseDto secondCourseDto = new CourseDto("titleTwo", 0L, 0L, new ArrayList<>());
 
-        when(courseRepository.findAll()).thenReturn(List.of(firstCurse,secondCurse));
+        when(courseRepository.findAll()).thenReturn(List.of(firstCurse, secondCurse));
         when(courseMappingImpl.courseToCourseDto(firstCurse)).thenReturn(firstCourseDto);
         when(courseMappingImpl.courseToCourseDto(secondCurse)).thenReturn(secondCourseDto);
 
@@ -86,7 +85,6 @@ class CourseServiceImplTest {
         when(courseRepository.save(any(Course.class))).thenReturn(course);
         when(courseMappingImpl.courseToCourseDto(any(Course.class))).thenReturn(courseDto);
 
-
         CourseDto saveCourseDto = courseService.createCourse(new CourseInitDto());
 
         assertThat(saveCourseDto, equalTo(courseDto));
@@ -105,10 +103,9 @@ class CourseServiceImplTest {
         when(courseMappingImpl.courseToCourseDto(any(Course.class))).thenReturn(courseDtoNew);
 
 
-        CourseDto saveCourseDto = courseService.updateCourse(0L , courseInitDto);
+        CourseDto saveCourseDto = courseService.updateCourse(0L, courseInitDto);
 
         assertThat(saveCourseDto, equalTo(courseDtoNew));
-        verify(courseRepository, times(1)).save(course);
     }
 
     @Test

@@ -41,7 +41,7 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public StudentDto getStudentById(Long studentId) {
         Student student = validStudentId(studentId);
-        studentRepository.findById(studentId);
+        log.info("Студент с id = {} успешно найден", studentId);
         return studentMapping.studentToStudentDto(student);
     }
 
@@ -50,8 +50,9 @@ public class StudentServiceImpl implements StudentService {
     public StudentDto createStudent(StudentInitDto studentInitDto) {
         Student student = studentMapping.studentInitDtoToStudent(studentInitDto);
         student.setCourses(new ArrayList<>());
-        log.info("Новый студент добавлен, ему присвоено id = {}", student.getId());
-        return studentMapping.studentToStudentDto(studentRepository.save(student));
+        Student saveStudent = studentRepository.save(student);
+        log.info("Новый студент добавлен, ему присвоено id = {}", saveStudent.getId());
+        return studentMapping.studentToStudentDto(saveStudent);
     }
 
     @Override
@@ -90,12 +91,12 @@ public class StudentServiceImpl implements StudentService {
         Course course = courseService.getCourseByIdForStudent(courseId);
 
         if (course.getLimitPerson() == course.getStudents().size()){
-            throw new DataConflictRequest("Достигнут предел по числу слушателей");
+            throw new DataConflictRequest("Достигнут предел по числу слушателей. Мест на курсе больше нет.");
         }
-
         if (course.getStudents().contains(student)) {
             throw new DataConflictRequest("Студент не может записаться на один и тот же курс дважды");
         }
+
         student.getCourses().add(course);
         Student saveStudent = studentRepository.save(student);
 
@@ -103,7 +104,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    @Transactional
+    @Transactional()
     public StudentDto leaveCourse(Long studentId, Long courseId) {
         Student student = validStudentId(studentId);
         Course course = courseService.getCourseByIdForStudent(courseId);

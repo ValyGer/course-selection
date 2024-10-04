@@ -1,6 +1,7 @@
 package ru.custis.course_selection.exception;
 
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.PessimisticLockException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -19,7 +20,6 @@ import java.util.List;
 public class ErrorHandler {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-    // Исключение данные не найдены
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ApiError notFoundException(final NotFoundException e) {
@@ -67,6 +67,26 @@ public class ErrorHandler {
         e.printStackTrace(new PrintWriter(out));
         String stackTrace = out.toString();
         return new ApiError(HttpStatus.BAD_REQUEST, e.getMessage(),
+                List.of(stackTrace), LocalDateTime.now().format(formatter));
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ApiError errorInvalidRequestException(PessimisticLockException e) {
+        StringWriter out = new StringWriter();
+        e.printStackTrace(new PrintWriter(out));
+        String stackTrace = out.toString();
+        return new ApiError(HttpStatus.CONFLICT, e.getMessage(),
+                List.of(stackTrace), LocalDateTime.now().format(formatter));
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ApiError errorAssesTime(ResourceCurrentlyUnavailable e) {
+        StringWriter out = new StringWriter();
+        e.printStackTrace(new PrintWriter(out));
+        String stackTrace = out.toString();
+        return new ApiError(HttpStatus.NOT_FOUND, e.getMessage(),
                 List.of(stackTrace), LocalDateTime.now().format(formatter));
     }
 }

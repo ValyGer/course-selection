@@ -49,8 +49,9 @@ public class CourseServiceImpl implements CourseService {
     @Transactional
     public CourseDto createCourse(CourseInitDto courseIniDto) {
         Course course = courseMapping.courseInitDtoToCourse(courseIniDto);
-        log.info("Новый курс успешно создан с id = {}", course.getId());
-        return courseMapping.courseToCourseDto(courseRepository.save(course));
+        Course saveCourse = courseRepository.save(course);
+        log.info("Новый курс успешно создан с id = {}", saveCourse.getId());
+        return courseMapping.courseToCourseDto(saveCourse);
     }
 
     @Override
