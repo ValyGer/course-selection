@@ -26,9 +26,3 @@ public class StudentMappingImpl implements StudentMapping {
         return student;
     }
 }
-
-//        List<Student> students = studentRepository.findAll();
-//        for(Student student: students){
-//            System.out.println(student.getFirstname() + student.getCourses());
-//        }
-//    }
