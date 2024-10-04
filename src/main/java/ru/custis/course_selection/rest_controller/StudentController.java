@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.custis.course_selection.dto.student.StudentDto;
 import ru.custis.course_selection.dto.student.StudentInitDto;
 import ru.custis.course_selection.service.student.StudentService;
-import ru.custis.course_selection.service.time_window.TimeWindowService;
 
 import java.util.List;
 

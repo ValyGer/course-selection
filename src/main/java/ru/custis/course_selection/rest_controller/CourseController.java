@@ -39,7 +39,7 @@ public class CourseController {
 
     @PatchMapping("/{courseId}")
     public ResponseEntity<CourseDto> updateCourse(@PathVariable("courseId") Long courseId,
-                                                @Valid @RequestBody CourseInitDto courseIniDto) {
+                                                  @Valid @RequestBody CourseInitDto courseIniDto) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(courseService.updateCourse(courseId, courseIniDto));
     }

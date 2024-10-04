@@ -95,10 +95,10 @@ public class StudentServiceImpl implements StudentService {
         Student student = validStudentId(studentId);
         Course course = courseService.getCourseByIdForStudent(courseId);
 
-        if (timeWindowService.isUnavailableTime(course, LocalDateTime.now())){
+        if (timeWindowService.isUnavailableTime(course, LocalDateTime.now())) {
             throw new ResourceCurrentlyUnavailable("В настоящее время запись на данный курс недоступна.");
         }
-        if (course.getLimitPerson() == course.getStudents().size()){
+        if (course.getLimitPerson() == course.getStudents().size()) {
             throw new DataConflictRequest("Достигнут предел по числу слушателей. Мест на курсе больше нет.");
         }
         if (course.getStudents().contains(student)) {

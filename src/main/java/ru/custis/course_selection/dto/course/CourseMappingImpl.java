@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class CourseMappingImpl implements CourseMapping{
+public class CourseMappingImpl implements CourseMapping {
 
     @Override
     public CourseDto courseToCourseDto(Course course) {

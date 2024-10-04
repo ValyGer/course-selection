@@ -25,7 +25,7 @@ class StudentRegistrationTestIT {
         studentService.createStudent(new StudentInitDto("Петр", "Петров"));
         studentService.createStudent(new StudentInitDto("Артем", "Артемов"));
 
-        courseService.createCourse(new CourseInitDto("информатика", 2L,  null, null));
+        courseService.createCourse(new CourseInitDto("информатика", 2L, null, null));
 
         assertThrows(DataConflictRequest.class, () -> {
             for (long studentId = 1L; studentId <= 3L; studentId++) {
