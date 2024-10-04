@@ -14,7 +14,9 @@ import ru.custis.course_selection.exception.DataConflictRequest;
 import ru.custis.course_selection.exception.NotFoundException;
 import ru.custis.course_selection.repository.StudentRepository;
 import ru.custis.course_selection.service.course.CourseService;
+import ru.custis.course_selection.service.time_window.TimeWindowServiceImpl;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -39,6 +41,9 @@ class StudentServiceImplTest {
 
     @Mock
     private StudentMappingImpl studentMappingImpl;
+
+    @Mock
+    private TimeWindowServiceImpl timeWindowService;
 
     @Test
     void getAllStudents_Successful() {
@@ -135,7 +140,7 @@ class StudentServiceImplTest {
 
     @Test
     void registrationOnCourse_whenSuccessful() {
-        Course course = new Course(0L, "title", 10L, new ArrayList<>());
+        Course course = new Course(0L, "title", 10L, null, null, new ArrayList<>());
         Student student = new Student(0L, "Иван", "Иванов", new ArrayList<>());
         Student studentNew = new Student(0L, "Иван", "Иванов", List.of(course));
         StudentDto studentDto = new StudentDto("Иван", "Иванов", List.of(course.getTitle()));
@@ -155,7 +160,7 @@ class StudentServiceImplTest {
     void registrationOnCourse_whenNotAvailablePlaces_ThenReturnException() {
         Student firstStudent = new Student(0L, "Иван", "Иванов", new ArrayList<>());
         Student secondStudent = new Student(1L, "Петр", "Петров", new ArrayList<>());
-        Course course = new Course(0L, "title", 1L, List.of(secondStudent));
+        Course course = new Course(0L, "title", 1L, null, null, List.of(secondStudent));
         secondStudent.setCourses(List.of(course));
 
         when(studentRepository.findById(any(Long.class))).thenReturn(Optional.of(firstStudent));
@@ -168,11 +173,12 @@ class StudentServiceImplTest {
     @Test
     void registrationOnCourse_whenHaveRegistration_ThenReturnException() {
         Student student = new Student(0L, "Иван", "Иванов", new ArrayList<>());
-        Course course = new Course(0L, "title", 10L, List.of(student));
+        Course course = new Course(0L, "title", 10L, null, null, List.of(student));
         student.setCourses(List.of(course));
-
+        boolean isUnavailable = false;
         when(studentRepository.findById(any(Long.class))).thenReturn(Optional.of(student));
         when(courseService.getCourseByIdForStudent(any(Long.class))).thenReturn(course);
+        when(timeWindowService.isUnavailableTime(any(Course.class), any(LocalDateTime.class))).thenReturn(isUnavailable);
 
         assertThrows(DataConflictRequest.class,
                 () -> studentService.registrationOnCourse(0L, 0L));
@@ -182,7 +188,7 @@ class StudentServiceImplTest {
     void leaveCourse_whenNotHaveRegistration_ThenReturnException() {
         Student student = new Student(0L, "Иван", "Иванов", new ArrayList<>());
         Student secondStudent = new Student(1L, "Петр", "Петров", new ArrayList<>());
-        Course course = new Course(0L, "title", 10L, List.of(secondStudent));
+        Course course = new Course(0L, "title", 10L, null, null, List.of(secondStudent));
         secondStudent.setCourses(List.of(course));
 
         when(studentRepository.findById(any(Long.class))).thenReturn(Optional.of(student));

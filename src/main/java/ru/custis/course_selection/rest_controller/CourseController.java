@@ -20,6 +20,7 @@ public class CourseController {
 
     private final CourseService courseService;
 
+
     @GetMapping
     public ResponseEntity<List<CourseDto>> getAllCourse() {
         return ResponseEntity.status(HttpStatus.OK).body(courseService.getAllCourse());

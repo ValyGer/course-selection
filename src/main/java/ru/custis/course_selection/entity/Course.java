@@ -3,6 +3,7 @@ package ru.custis.course_selection.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -21,6 +22,13 @@ public class Course {
     private String title;
     @Column(name = "limit_person")
     private long limitPerson;
+
+    @Column(name = "start_reg")
+    private LocalDateTime startReg;
+
+    @Column(name = "finish_reg")
+    private LocalDateTime finishReg;
+
     @ManyToMany
     @JoinTable(name = "registrations", joinColumns = @JoinColumn(name = "course_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "student_id", referencedColumnName = "id"))
