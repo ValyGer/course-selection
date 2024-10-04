@@ -26,14 +26,12 @@ public class CourseController {
     }
 
     @GetMapping("/{courseId}")
-    public ResponseEntity<CourseDto> getAllCourse(@PathVariable("courseId") Long courseId) {
+    public ResponseEntity<CourseDto> getCourseById(@PathVariable("courseId") Long courseId) {
         return ResponseEntity.status(HttpStatus.OK).body(courseService.getCourseById(courseId));
     }
 
     @PostMapping
     public ResponseEntity<CourseDto> createCourse(@Valid @RequestBody CourseInitDto courseIniDto) {
-        System.out.println(courseIniDto);
-
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(courseService.createCourse(courseIniDto));
     }

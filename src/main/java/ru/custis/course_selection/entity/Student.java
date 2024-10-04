@@ -21,7 +21,7 @@ public class Student {
     private String firstname;
     @Column(name = "lastname")
     private String lastname;
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(name = "registrations", joinColumns = @JoinColumn(name = "student_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "course_id", referencedColumnName = "id"))
     private List<Course> courses;
