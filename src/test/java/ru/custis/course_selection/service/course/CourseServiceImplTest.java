@@ -37,11 +37,11 @@ class CourseServiceImplTest {
 
     @Test
     void getAllCourse_Successful() {
-        Course firstCurse = new Course(0L, "titleOne", 0, new ArrayList<>());
-        Course secondCurse = new Course(1L, "titleTwo", 0, new ArrayList<>());
+        Course firstCurse = new Course(0L, "titleOne", 0, null, null, new ArrayList<>());
+        Course secondCurse = new Course(1L, "titleTwo", 0, null, null, new ArrayList<>());
 
-        CourseDto firstCourseDto = new CourseDto("title", 0L, 0L, new ArrayList<>());
-        CourseDto secondCourseDto = new CourseDto("titleTwo", 0L, 0L, new ArrayList<>());
+        CourseDto firstCourseDto = new CourseDto("title", 0L, 0L, null, null, new ArrayList<>());
+        CourseDto secondCourseDto = new CourseDto("titleTwo", 0L, 0L, null, null, new ArrayList<>());
 
         when(courseRepository.findAll()).thenReturn(List.of(firstCurse, secondCurse));
         when(courseMappingImpl.courseToCourseDto(firstCurse)).thenReturn(firstCourseDto);
@@ -93,10 +93,10 @@ class CourseServiceImplTest {
 
     @Test
     void updateCourse_whenSuccessful_ThenReturnCourse() {
-        CourseInitDto courseInitDto = new CourseInitDto("title New", 20L);
-        Course courseNew = new Course(0L, "title New", 20L, new ArrayList<>());
-        Course course = new Course(0L, "title", 10L, new ArrayList<>());
-        CourseDto courseDtoNew = new CourseDto("title New", 0L, 20L, new ArrayList<>());
+        CourseInitDto courseInitDto = new CourseInitDto("title New", 20L, null, null);
+        Course courseNew = new Course(0L, "title New", 20L, null, null, new ArrayList<>());
+        Course course = new Course(0L, "title", 10L, null, null, new ArrayList<>());
+        CourseDto courseDtoNew = new CourseDto("title New", 0L, 20L, null, null, new ArrayList<>());
 
         when(courseRepository.findById(course.getId())).thenReturn(Optional.of(course));
         when(courseRepository.save(any(Course.class))).thenReturn(courseNew);

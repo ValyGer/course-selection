@@ -13,7 +13,6 @@ import java.util.ArrayList;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 class CourseMappingImplTest {
@@ -23,8 +22,9 @@ class CourseMappingImplTest {
 
     @Test
     void courseToCourseDto_Successful() {
-        Course course = new Course(0L, "title", 10L, new ArrayList<>());
-        CourseDto courseDtoWait = new CourseDto("title", 0L, 10L, new ArrayList<>());
+        Course course = new Course(0L, "title", 10L, null, null, new ArrayList<>());
+        CourseDto courseDtoWait = new CourseDto("title", 0L,
+                10L, null, null, new ArrayList<>());
 
         CourseDto courseDto = courseMappingImpl.courseToCourseDto(course);
 
@@ -37,8 +37,8 @@ class CourseMappingImplTest {
 
     @Test
     void courseInitDtoToCourse_Successful() {
-        CourseInitDto courseInitDto = new CourseInitDto("title", 10L);
-        Course courseWait = new Course(0L, "title", 10L, new ArrayList<>());
+        CourseInitDto courseInitDto = new CourseInitDto("title", 10L, null, null);
+        Course courseWait = new Course(0L, "title", 10L, null, null, new ArrayList<>());
 
         Course course = courseMappingImpl.courseInitDtoToCourse(courseInitDto);
 

@@ -20,6 +20,7 @@ public class CourseController {
 
     private final CourseService courseService;
 
+
     @GetMapping
     public ResponseEntity<List<CourseDto>> getAllCourse() {
         return ResponseEntity.status(HttpStatus.OK).body(courseService.getAllCourse());
@@ -38,7 +39,7 @@ public class CourseController {
 
     @PatchMapping("/{courseId}")
     public ResponseEntity<CourseDto> updateCourse(@PathVariable("courseId") Long courseId,
-                                                @Valid @RequestBody CourseInitDto courseIniDto) {
+                                                  @Valid @RequestBody CourseInitDto courseIniDto) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(courseService.updateCourse(courseId, courseIniDto));
     }

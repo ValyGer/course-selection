@@ -15,5 +15,7 @@ public class CourseDto {
     private String title;
     private long numberOccupiedPlaces;
     private long numberAvailablePlaces;
+    private String startReg;
+    private String finishReg;
     private List<String> studentNames;
 }

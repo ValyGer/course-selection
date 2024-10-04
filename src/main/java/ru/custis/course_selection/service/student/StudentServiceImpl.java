@@ -14,9 +14,12 @@ import ru.custis.course_selection.entity.Student;
 import ru.custis.course_selection.exception.DataConflictRequest;
 import ru.custis.course_selection.exception.InvalidRequestException;
 import ru.custis.course_selection.exception.NotFoundException;
+import ru.custis.course_selection.exception.ResourceCurrentlyUnavailable;
 import ru.custis.course_selection.repository.StudentRepository;
 import ru.custis.course_selection.service.course.CourseService;
+import ru.custis.course_selection.service.time_window.TimeWindowService;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -30,6 +33,8 @@ public class StudentServiceImpl implements StudentService {
     private final StudentMapping studentMapping;
     private final StudentRepository studentRepository;
     private final CourseService courseService;
+    private final TimeWindowService timeWindowService;
+
 
     @Override
     public List<StudentDto> getAllStudents() {
@@ -90,11 +95,14 @@ public class StudentServiceImpl implements StudentService {
         Student student = validStudentId(studentId);
         Course course = courseService.getCourseByIdForStudent(courseId);
 
-        if (course.getLimitPerson() == course.getStudents().size()){
+        if (timeWindowService.isUnavailableTime(course, LocalDateTime.now())) {
+            throw new ResourceCurrentlyUnavailable("В настоящее время запись на данный курс недоступна.");
+        }
+        if (course.getLimitPerson() == course.getStudents().size()) {
             throw new DataConflictRequest("Достигнут предел по числу слушателей. Мест на курсе больше нет.");
         }
         if (course.getStudents().contains(student)) {
-            throw new DataConflictRequest("Студент не может записаться на один и тот же курс дважды");
+            throw new DataConflictRequest("Студент не может записаться на один и тот же курс дважды.");
         }
 
         student.getCourses().add(course);

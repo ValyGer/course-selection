@@ -7,5 +7,6 @@ import ru.custis.course_selection.entity.Course;
 public interface CourseMapping {
 
     CourseDto courseToCourseDto(Course course);
+
     Course courseInitDtoToCourse(CourseInitDto courseInitDto);
 }
