@@ -16,7 +16,6 @@ public class CourseInitDto {
     private String title;
     @Min(2)
     private Long limitPerson;
-
     private String startReg;
     private String finishReg;
 }

@@ -19,7 +19,6 @@ import ru.custis.course_selection.repository.StudentRepository;
 import ru.custis.course_selection.service.course.CourseService;
 import ru.custis.course_selection.service.time_window.TimeWindowService;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -95,7 +94,7 @@ public class StudentServiceImpl implements StudentService {
         Student student = validStudentId(studentId);
         Course course = courseService.getCourseByIdForStudent(courseId);
 
-        if (timeWindowService.isUnavailableTime(course, LocalDateTime.now())) {
+        if (timeWindowService.isUnavailableTime(course)) {
             throw new ResourceCurrentlyUnavailable("В настоящее время запись на данный курс недоступна.");
         }
         if (course.getLimitPerson() == course.getStudents().size()) {

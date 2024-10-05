@@ -17,6 +17,8 @@ import ru.custis.course_selection.service.course.CourseService;
 import ru.custis.course_selection.service.time_window.TimeWindowServiceImpl;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -171,6 +173,27 @@ class StudentServiceImplTest {
     }
 
     @Test
+    void registrationOnCourse_whenResourceAvailable_ThenReturnException() {
+        ZonedDateTime startReg = ZonedDateTime.of(LocalDateTime.now().minusDays(2), ZoneId.of("Europe/Moscow"));
+        ZonedDateTime finishReg = ZonedDateTime.of(LocalDateTime.now().plusDays(5), ZoneId.of("Europe/Moscow"));
+
+        Course course = new Course(0L, "title", 10L, startReg, finishReg, new ArrayList<>());
+        Student student = new Student(0L, "Иван", "Иванов", new ArrayList<>());
+        Student studentNew = new Student(0L, "Иван", "Иванов", List.of(course));
+        StudentDto studentDto = new StudentDto("Иван", "Иванов", List.of(course.getTitle()));
+
+        when(studentRepository.findById(any(Long.class))).thenReturn(Optional.of(student));
+        when(courseService.getCourseByIdForStudent(any(Long.class))).thenReturn(course);
+        when(studentRepository.save(any(Student.class))).thenReturn(studentNew);
+        when(studentMappingImpl.studentToStudentDto(any(Student.class))).thenReturn(studentDto);
+
+        StudentDto saveStudentDto = studentService.registrationOnCourse(0L, 0L);
+
+        assertThat(saveStudentDto, equalTo(studentDto));
+        verify(studentRepository, times(1)).save(student);
+    }
+
+    @Test
     void registrationOnCourse_whenHaveRegistration_ThenReturnException() {
         Student student = new Student(0L, "Иван", "Иванов", new ArrayList<>());
         Course course = new Course(0L, "title", 10L, null, null, List.of(student));
@@ -178,7 +201,7 @@ class StudentServiceImplTest {
         boolean isUnavailable = false;
         when(studentRepository.findById(any(Long.class))).thenReturn(Optional.of(student));
         when(courseService.getCourseByIdForStudent(any(Long.class))).thenReturn(course);
-        when(timeWindowService.isUnavailableTime(any(Course.class), any(LocalDateTime.class))).thenReturn(isUnavailable);
+        when(timeWindowService.isUnavailableTime(any(Course.class))).thenReturn(isUnavailable);
 
         assertThrows(DataConflictRequest.class,
                 () -> studentService.registrationOnCourse(0L, 0L));

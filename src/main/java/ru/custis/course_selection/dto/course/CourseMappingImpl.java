@@ -3,13 +3,17 @@ package ru.custis.course_selection.dto.course;
 import org.springframework.stereotype.Component;
 import ru.custis.course_selection.entity.Course;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @Component
 public class CourseMappingImpl implements CourseMapping {
+
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm xxx", Locale.ENGLISH);
+
 
     @Override
     public CourseDto courseToCourseDto(Course course) {
@@ -21,10 +25,11 @@ public class CourseMappingImpl implements CourseMapping {
                 .map(student -> student.getFirstname() + " " + student.getLastname()).toList();
 
         if (course.getStartReg() != null) {
-            courseDto.setStartReg(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(course.getStartReg()));
+
+            courseDto.setStartReg(formatter.format(course.getStartReg()));
         }
         if (course.getFinishReg() != null) {
-            courseDto.setFinishReg(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(course.getFinishReg()));
+            courseDto.setFinishReg(formatter.format(course.getFinishReg()));
         }
         courseDto.setStudentNames(studentNames);
         return courseDto;
@@ -38,10 +43,10 @@ public class CourseMappingImpl implements CourseMapping {
         course.setStudents(new ArrayList<>());
 
         if (courseInitDto.getStartReg() != null) {
-            course.setStartReg(LocalDateTime.parse(courseInitDto.getStartReg(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            course.setStartReg(ZonedDateTime.parse(courseInitDto.getStartReg(), formatter));
         }
         if (courseInitDto.getFinishReg() != null) {
-            course.setFinishReg(LocalDateTime.parse(courseInitDto.getFinishReg(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            course.setFinishReg(ZonedDateTime.parse(courseInitDto.getFinishReg(), formatter));
         }
         return course;
     }

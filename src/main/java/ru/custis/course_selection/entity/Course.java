@@ -3,7 +3,7 @@ package ru.custis.course_selection.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 @Getter
@@ -24,10 +24,10 @@ public class Course {
     private long limitPerson;
 
     @Column(name = "start_reg")
-    private LocalDateTime startReg;
+    private ZonedDateTime startReg;
 
     @Column(name = "finish_reg")
-    private LocalDateTime finishReg;
+    private ZonedDateTime finishReg;
 
     @ManyToMany
     @JoinTable(name = "registrations", joinColumns = @JoinColumn(name = "course_id", referencedColumnName = "id"),
