@@ -3,7 +3,6 @@ package ru.custis.course_selection.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.List;
 

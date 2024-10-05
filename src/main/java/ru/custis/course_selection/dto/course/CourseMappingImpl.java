@@ -3,7 +3,6 @@ package ru.custis.course_selection.dto.course;
 import org.springframework.stereotype.Component;
 import ru.custis.course_selection.entity.Course;
 
-import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;

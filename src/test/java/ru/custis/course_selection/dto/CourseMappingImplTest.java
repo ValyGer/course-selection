@@ -9,8 +9,6 @@ import ru.custis.course_selection.dto.course.CourseInitDto;
 import ru.custis.course_selection.dto.course.CourseMappingImpl;
 import ru.custis.course_selection.entity.Course;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -60,7 +58,8 @@ class CourseMappingImplTest {
         String startTime = "2024-09-30 16:30 +03:00";
         String finishTime = "2024-10-10 16:30 +03:00";
         ZonedDateTime startReg = ZonedDateTime.parse(startTime, formatter);
-        ZonedDateTime finishReg = ZonedDateTime.parse(finishTime, formatter);;
+        ZonedDateTime finishReg = ZonedDateTime.parse(finishTime, formatter);
+        ;
 
         CourseInitDto courseInitDto = new CourseInitDto("title", 10L, startTime, finishTime);
         Course courseWait = new Course(0L, "title", 10L, startReg, finishReg, new ArrayList<>());

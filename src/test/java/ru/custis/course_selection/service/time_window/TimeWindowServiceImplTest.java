@@ -1,26 +1,18 @@
 package ru.custis.course_selection.service.time_window;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import ru.custis.course_selection.dto.student.StudentDto;
-import ru.custis.course_selection.dto.student.StudentMappingImpl;
 import ru.custis.course_selection.entity.Course;
-import ru.custis.course_selection.entity.Student;
-import ru.custis.course_selection.repository.StudentRepository;
-import ru.custis.course_selection.service.course.CourseService;
-import ru.custis.course_selection.service.student.StudentServiceImpl;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
-import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(MockitoExtension.class)
 class TimeWindowServiceImplTest {
