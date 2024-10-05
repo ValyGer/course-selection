@@ -81,7 +81,7 @@ public class ErrorHandler {
     }
 
     @ExceptionHandler
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseStatus(HttpStatus.CONFLICT)
     public ApiError errorAssesTime(ResourceCurrentlyUnavailable e) {
         StringWriter out = new StringWriter();
         e.printStackTrace(new PrintWriter(out));
